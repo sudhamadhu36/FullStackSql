@@ -1,0 +1,31 @@
+.card-body{
+    background-image:url("https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-virtual-background-_Tcjok-d9b4.jpg");
+    min-width:50vh;
+    justify-content: center;
+    left: 45%;
+    top: 40%;
+    margin-left: -25%;
+    position: absolute;
+    margin-top: 0%;
+}
+
+.navbar {
+	  background-color:color-mix(in srgb, color percentage, color percentage);
+	  overflow: auto;
+	  width: 650px;
+	  margin: auto;
+	}
+.navbar p {
+        float: none;
+        text-align: center;
+        padding: 14px;
+        text-decoration: none;
+        font-size: 30px;
+        font-style: System,900,bold;
+      }
+
+.link{
+    font-size: 25px;
+    font-weight: 400;
+    color: rgb(204, 0, 255);
+}
