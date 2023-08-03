@@ -91,7 +91,7 @@ app.get("/api/getEmployee/:id", (req, res) => {
 //updating employee 
 app.put("/api/update/:id", (req, res) => {
     const id=req.params.id;
-    const {empName,sex,dob,salary,department}=req.body;
+    {/*const {empName,sex,dob,salary,department}=req.body;
     const{filename,path}=req.file;
 
     const values= {
@@ -102,14 +102,16 @@ app.put("/api/update/:id", (req, res) => {
     department:department,
     photo_filename:filename,
     photo_path:path,
-  };
-    {/*const values=[
+  };*/}
+  const values=[
         req.body.empName,
         req.body.sex,
         req.body.dob,
         req.body.salary,
         req.body.department,
-    ]*/}
+        req.file.photo_filename,
+        req.file.photo_path,
+    ]
     const sqlUpdate = "UPDATE employee SET `empName`=?,`sex`=?,`dob`=?,`salary`=?,`department`=?, `photo`=? WHERE id=?";
     db.query(sqlUpdate, [...values,id],(error, result) => {
         if(error){
