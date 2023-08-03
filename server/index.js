@@ -4,8 +4,9 @@ const bodyParser=require("body-parser");
 const mysql=require("mysql");
 const cors=require("cors");
 const multer=require("multer");
-const path=require("path");
 const bcrypt=require("bcrypt");
+
+const salt=10;
 
 const db=mysql.createConnection({
     host:"localhost",
@@ -118,14 +119,15 @@ app.put("/api/update/:id", (req, res) => {
     });
 });
 
-{/*//registration
+//registration
 app.post("/api/register/save", (req,res)=>{
     const sqlSignin="INSERT INTO register(`name`,`email`,`password`) VALUES (?)";
-    
+    const password=req.body.password;
+    bcrypt.hash(password.toString(),salt,(err,hash)=>{
         const values=[
             req.body.name,
             req.body.email,
-            req.body.password
+            hash
         ]
     db.query(sqlSignin,[values], (error, result) =>{
         if(error){
@@ -133,60 +135,28 @@ app.post("/api/register/save", (req,res)=>{
         }
         return res.json(result);
     })
-})
-//registration
-app.post("/api/register/save",async(req,res)=>{
-    try{
-        const {name,email,password}=req.body;
-        const hashedPassword=await bcrypt.hash(password, saltRounds);
-        const values={
-            name,
-            email,
-            password:hashedPassword,
-        };
-        db.query("INSERT INTO register SET ?", values,(error,result) =>{
-            if(error){
-                return res.json(error);
-            }
-            return res.json(result);
     })
-    }catch(error){
-        console.error(error);
-        res.status(500).json();
-    }
-})*/}
-//registration
-app.post("/api/register/save",async(req,res)=>{
-    const {name,email,password}=req.body;
-
-    bcrypt.hash(password, 10, (err,hash) =>{
-        if(err){
-            return res.status(500).json({error: 'Error hashing password'});
-        }
-
-        const newUser={
-            name: name,
-            email: email,
-            password: hash,
-        };
-
-        db.query('INSERT INTO register SET ?', newUser, (error,result)=>{
-            if(error){
-                return res.json(error);
-            }
-            return res.json(result);
-        });
-    });
-});
+})
 //Login
 app.post("/api/register/login", (req,res)=>{
-    const sqlLogin="SELECT * FROM register WHERE `email`=? AND `password`=?";
-    db.query(sqlLogin, [req.body.email,req.body.password],(error, result)=>{
+    const email=req.body.email;
+    const password=req.body.password;
+
+    const sqlLogin="SELECT * FROM register WHERE `email`=?";
+    db.query(sqlLogin, email,(error, result)=>{
         if(error){
-            return res.json(error);
+            return res.json("Error");
         }
         if(result.length > 0){
-            return res.json({Status:"Success"});
+            bcrypt.compare(password.toString(), result[0].password, (error, response)=>{
+                if(error){
+                    return res.json("Error");
+                } 
+                if(response){
+                    return res.json({Status:"Success"});
+                }
+                return res.json();
+            })    
         }else{
             return res.json({Status:"Fail"});
         }
