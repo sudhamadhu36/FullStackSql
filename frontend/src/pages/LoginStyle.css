@@ -2,7 +2,7 @@
     background-image:url("https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-virtual-background-_Tcjok-d9b4.jpg");
     min-width:50vh;
     justify-content: center;
-    left: 45%;
+    left: 50%;
     top: 40%;
     margin-left: -25%;
     position: absolute;
@@ -11,14 +11,14 @@
 
 .navbar {
 	  background-color:color-mix(in srgb, color percentage, color percentage);
-	  overflow: auto;
+	  overflow: hidden;
 	  width: 650px;
 	  margin: auto;
 	}
 .navbar p {
         float: none;
         text-align: center;
-        padding: 14px;
+        padding: 10px 15px;
         text-decoration: none;
         font-size: 30px;
         font-style: System,900,bold;
