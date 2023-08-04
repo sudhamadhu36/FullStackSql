@@ -12,15 +12,22 @@ const AddEmployee = () =>{
     const [dob, setDob]=useState('')
     const [salary, setSalary]=useState('')
     const [department, setDepartment]=useState('')
-    const [file, setFile]=useState(null)
+    const [userInfo, setUserInfo]=useState({
+        file:[],
+        filepreview:null,
+    });
     
     const navigate = useNavigate();
     
     const handleFileChange=(e)=>{
-        setFile(e.target.files[0]);
+        setUserInfo({
+            ...userInfo,
+            file:e.target.files[0],
+            filepreview:URL.createObjectURL(e.target.files[0]),
+        });
     }
 
-    const saveEmployee=(e)=>{
+    const saveEmployee=async(e)=>{
         e.preventDefault();
         const formData=new FormData();
         formData.append('empName', empName);
@@ -28,24 +35,18 @@ const AddEmployee = () =>{
         formData.append('dob', dob);
         formData.append('salary', salary);
         formData.append('department', department);
-        formData.append('photo', file);
+        formData.append('image', userInfo.file);
         
-        if(formData.empName !== "" && formData.sex !== "" && formData.dob !== "" && formData.salary !== "" && formData.department !== "" && formData.photo !==""){
+        if(formData.empName !== "" && formData.sex !== "" && formData.dob !== "" && formData.salary !== "" && formData.department !== "" && formData.image !==""){
             
             axios.post("http://localhost:8081/api/post", formData,{
                 headers:{
-                    'Content-Type': 'multipart/form-data',
-                },
+                    'Content-Type': 'multipart/form-data'
+                }
             })
             .then((res) => 
             {
                 console.log(res.data);
-                setEmpName('');
-                setSex('');
-                setDob('');
-                setSalary('');
-                setDepartment('');
-                setFile(null);
                 navigate("/Employees");
             }).catch(err=> console.log(err));
            
@@ -126,12 +127,11 @@ const AddEmployee = () =>{
                                 <label classname="form-label">Photo</label>
                                 <input
                                     type="file"
-                                    name='file'
+                                    name='image'
                                     className="form-control"
                                     onChange={handleFileChange}>
                                 </input>
                             </div>
-                            
                             <div>
                                 <button className="btn btn-success" onClick={(e)=> saveEmployee(e)}>Submit</button>
                                 &nbsp;

@@ -3,8 +3,8 @@ const app=express();
 const bodyParser=require("body-parser");
 const mysql=require("mysql");
 const cors=require("cors");
-const multer=require("multer");
-//const path=require("path")
+const multer = require('multer');
+const path = require("path")
 const bcrypt=require("bcrypt");
 
 const salt=10;
@@ -21,17 +21,17 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-const storage=multer.diskStorage({
-    destination: (req,file,cb)=>{
-        cb(null,"public/images")
-    },
-    filename:(req,file,cb)=>{
-        cb(null,Date.now()+'-'+file.originalname);
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/images'),
+    filename: function (req, file, cb) {   
+        // null as first argument means no error
+        cb(null, Date.now() + '-' + file.originalname )  
     }
-});
-
+})
 const upload=multer({
+
     storage: storage
+
 });
 
 //getting employee
@@ -43,25 +43,27 @@ app.get("/api/getEmployee", (req, res) => {
     });
 });
 
-//adding employee
-app.post("/api/post",upload.single('photo'),(req,res)=>{
+//add employee
+app.post("/api/post",upload.single('image'),async (req,res)=>{
+    try{
     const {empName,sex,dob,salary,department}=req.body;
-    const{filename,path}=req.file;
-
+    const{filename}=req.file;
     const values={
         empName:empName,
         sex:sex,
         dob:dob,
         salary:salary,
         department:department,
-        photo_filename:filename,
-        photo_path:path,
+        image:filename,
     };
-    //const sqlInsert= "INSERT INTO employee(`empName`, `sex`, `dob`, `salary`, `department`) VALUES (?)";
-    db.query("INSERT INTO employee SET ?",values, (error,result) =>{
+    const sqlInsert= "INSERT INTO employee SET ?";
+    db.query(sqlInsert,values, (error,result) =>{
         if(error) return res.json("Error");
         return res.json(result);              
     });
+    }catch (err){
+      console.log(err)
+    }
 });
 
 //deleting employee
@@ -89,31 +91,20 @@ app.get("/api/getEmployee/:id", (req, res) => {
 });
 
 //updating employee 
-app.put("/api/update/:id",upload.single('photo'),(req, res) => {
+app.put("/api/update/:id",upload.single('image'),async (req,res)=> {
     const id=req.params.id;
-    //const path=req.file.path;
     const {empName,sex,dob,salary,department}=req.body;
-    const{filename,path}=req.file;
+    const{filename}=req.file;
 
     const values= {
-    empName:empName,
-    sex:sex,
-    dob:dob,
-    salary:salary,
-    department:department,
-    photo_filename:filename,
-    photo_path:path,
-  };
-  {/*const values=[
-        req.body.empName,
-        req.body.sex,
-        req.body.dob,
-        req.body.salary,
-        req.body.department,
-        req.file.photo_filename,
-        req.file.photo_path,
-    ]*/}
-    //const sqlUpdate = "UPDATE employee SET `empName`=?,`sex`=?,`dob`=?,`salary`=?,`department`=?, `photo_path`=? WHERE id=?";
+        empName:empName,
+        sex:sex,
+        dob:dob,
+        salary:salary,
+        department:department,
+        image:filename,
+    };
+    //const sqlUpdate = "UPDATE employee SET ? WHERE id=?";
     db.query("UPDATE employee SET ? WHERE id=?", [values,id],(error, result) => {
         if(error){
             console.log(error);

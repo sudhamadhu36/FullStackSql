@@ -9,12 +9,9 @@ import {Link} from 'react-router-dom'
 function Employees(){
 
     const [employees, setEmployees] = useState([]);
-
-
+    
     useEffect(() => {
-
         getAllEmployees();
-
     }, [])
 
     const getAllEmployees =()=>{
@@ -67,7 +64,9 @@ function Employees(){
                                         <td>{employee.salary}</td>
                                         <td>{employee.department}</td>  
                                         <td>{
-                                            <img src={`http://localhost:8081/${employee.image_path}`} alt={employee.name} style={{width:'50px',height:'50px'}}/>}
+                                            <img className="previewimg" src={`http://localhost:8081/${employee.image}`} alt={employee.name} style={{width:'50px',height:'50px'}}/>
+                                            //<img className="previewimg"  src={userInfo.filepreview} alt={employee.name} style={{width:'50px',height:'50px'}}/>
+                                        }
                                         </td>             
                                         <td>
                                             <Link  to={`/edit-employee/${employee.id}`} >

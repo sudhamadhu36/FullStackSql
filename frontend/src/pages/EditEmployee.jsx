@@ -12,10 +12,17 @@ const EditEmployee = () =>{
     const [dob, setDob]=useState('')
     const [salary, setSalary]=useState('')
     const [department, setDepartment]=useState('')
-    const [file, setFile]=useState(null)
+    const [userInfo, setUserInfo]=useState({
+        file:[],
+        filepreview:null,
+    });
 
     const handleFileChange=(e)=>{
-        setFile(e.target.files[0]);
+        setUserInfo({
+            ...userInfo,
+            file:e.target.files[0],
+            filepreview:URL.createObjectURL(e.target.files[0]),
+        });
     }
 
     let navigate = useNavigate();
@@ -44,9 +51,9 @@ const EditEmployee = () =>{
         formData.append('dob', dob);
         formData.append('salary', salary);
         formData.append('department', department);
-        formData.append('photo', file);
+        formData.append('image', userInfo.file);
 
-        if(formData.empName !== "" && formData.sex !== "" && formData.dob !== "" && formData.salary !== "" && formData.department !== "" && formData.photo !==""){
+        if(formData.empName !== "" && formData.sex !== "" && formData.dob !== "" && formData.salary !== "" && formData.department !== "" && formData.image !==""){
             if(id){
                 axios.put(`http://localhost:8081/api/update/${id}`, formData,{
                     headers:{
@@ -142,7 +149,7 @@ const EditEmployee = () =>{
                                 <label classname="form-label">Photo</label>
                                 <input
                                     type="file"
-                                    name='file'
+                                    name='image'
                                     className="form-control"
                                     onChange={handleFileChange}>
                                 </input>
