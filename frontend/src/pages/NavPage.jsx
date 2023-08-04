@@ -12,10 +12,10 @@ const NavPage = () => {
       <section>
         <Routes>
         <Route exact path="/Login" element={<Login/>}/>
+        <Route exact path="/Register" element={<Register/>}/>
         <Route exact path="/Employees" element={<Employees/>}/>
         <Route exact path="/add-employee" element={<AddEmployee/>}/>
         <Route exact path="/edit-employee/:id" element={<EditEmployee/>}/>
-        <Route exact path="/Register" element={<Register/>}/>
         </Routes>
       </section>
     </React.Fragment>

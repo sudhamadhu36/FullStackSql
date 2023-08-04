@@ -4,6 +4,7 @@ const bodyParser=require("body-parser");
 const mysql=require("mysql");
 const cors=require("cors");
 const multer=require("multer");
+//const path=require("path")
 const bcrypt=require("bcrypt");
 
 const salt=10;
@@ -59,8 +60,7 @@ app.post("/api/post",upload.single('photo'),(req,res)=>{
     //const sqlInsert= "INSERT INTO employee(`empName`, `sex`, `dob`, `salary`, `department`) VALUES (?)";
     db.query("INSERT INTO employee SET ?",values, (error,result) =>{
         if(error) return res.json("Error");
-        return res.json(result);
-              
+        return res.json(result);              
     });
 });
 
@@ -89,9 +89,10 @@ app.get("/api/getEmployee/:id", (req, res) => {
 });
 
 //updating employee 
-app.put("/api/update/:id", (req, res) => {
+app.put("/api/update/:id",upload.single('photo'),(req, res) => {
     const id=req.params.id;
-    {/*const {empName,sex,dob,salary,department}=req.body;
+    //const path=req.file.path;
+    const {empName,sex,dob,salary,department}=req.body;
     const{filename,path}=req.file;
 
     const values= {
@@ -102,8 +103,8 @@ app.put("/api/update/:id", (req, res) => {
     department:department,
     photo_filename:filename,
     photo_path:path,
-  };*/}
-  const values=[
+  };
+  {/*const values=[
         req.body.empName,
         req.body.sex,
         req.body.dob,
@@ -111,9 +112,9 @@ app.put("/api/update/:id", (req, res) => {
         req.body.department,
         req.file.photo_filename,
         req.file.photo_path,
-    ]
-    const sqlUpdate = "UPDATE employee SET `empName`=?,`sex`=?,`dob`=?,`salary`=?,`department`=?, `photo`=? WHERE id=?";
-    db.query(sqlUpdate, [...values,id],(error, result) => {
+    ]*/}
+    //const sqlUpdate = "UPDATE employee SET `empName`=?,`sex`=?,`dob`=?,`salary`=?,`department`=?, `photo_path`=? WHERE id=?";
+    db.query("UPDATE employee SET ? WHERE id=?", [values,id],(error, result) => {
         if(error){
             console.log(error);
         }
@@ -126,6 +127,9 @@ app.post("/api/register/save", (req,res)=>{
     const sqlSignin="INSERT INTO register(`name`,`email`,`password`) VALUES (?)";
     const password=req.body.password;
     bcrypt.hash(password.toString(),salt,(err,hash)=>{
+        if(err){
+            return res.json("Error")
+        }
         const values=[
             req.body.name,
             req.body.email,

@@ -15,20 +15,25 @@ const Navbar = () => {
             className={({ isActive }) => (isActive ? activeLink : normalLink)}>
             <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Home</p>
           </NavLink>
+          {/*<NavLink 
+            to="/Register"
+            className={({ isActive }) => (isActive ? activeLink : normalLink)}>
+            <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Home</p>
+  </NavLink>*/}
           <NavLink
             to="/Employees"
             className={({ isActive }) => (isActive ? activeLink : normalLink)}>
             <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Employees</p>
           </NavLink>
           <NavLink
-            to="/edit-employee/:id"
-            className={({ isActive }) => (isActive ? activeLink : normalLink)}>
-            <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Edit</p>
-          </NavLink>
-          <NavLink
             to="/add-employee"
             className={({ isActive }) => (isActive ? activeLink : normalLink)}>
             <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Add</p>
+          </NavLink>
+          <NavLink
+            to="/edit-employee/:id"
+            className={({ isActive }) => (isActive ? activeLink : normalLink)}>
+            <p className="border w-full h-full px-4 centered" style={{color:"black"}}>Edit</p>
           </NavLink>
         </div>
         </div>
