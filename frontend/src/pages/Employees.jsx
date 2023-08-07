@@ -60,7 +60,7 @@ function Employees(){
                                        <th scope="row">{index+1}</th>
                                         <td>{employee.empName}</td>
                                         <td>{
-                                            <img className="previewimg" src={`http://localhost:8081/images/${employee.image}`} alt={employee.name} style={{width:'50px',height:'50px'}}/>
+                                            <img className="previewimg" src={`http://localhost:8081/images/${employee.image}`} alt={employee.empName} style={{width:'50px',height:'50px'}}/>
                                             //<img className="previewimg"  src={userInfo.filepreview} alt={employee.name} src={`C:\Nodejs\FullStackSql\server\public\images/${employee.image}`} style={{width:'50px',height:'50px'}}/>
                                         }
                                         </td>    
