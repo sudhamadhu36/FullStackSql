@@ -45,11 +45,11 @@ function Employees(){
                         <tr style={{color:"black"}}>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <th>Photo</th>
                                 <th>Gender</th>
                                 <th>DateOfBirth</th>
                                 <th>Salary </th>
                                 <th>Department</th>
-                                <th>Photo</th>
                                 <th></th>
                         </tr>
                     </thead>
@@ -59,15 +59,15 @@ function Employees(){
                                  <tr key={employee.id} >
                                        <th scope="row">{index+1}</th>
                                         <td>{employee.empName}</td>
+                                        <td>{
+                                            <img className="previewimg" src={`http://localhost:8081/images/${employee.image}`} alt={employee.name} style={{width:'50px',height:'50px'}}/>
+                                            //<img className="previewimg"  src={userInfo.filepreview} alt={employee.name} src={`C:\Nodejs\FullStackSql\server\public\images/${employee.image}`} style={{width:'50px',height:'50px'}}/>
+                                        }
+                                        </td>    
                                         <td>{employee.sex}</td>
                                         <td>{employee.dob}</td>
                                         <td>{employee.salary}</td>
-                                        <td>{employee.department}</td>  
-                                        <td>{
-                                            <img className="previewimg" src={`http://localhost:8081/${employee.image}`} alt={employee.name} style={{width:'50px',height:'50px'}}/>
-                                            //<img className="previewimg"  src={userInfo.filepreview} alt={employee.name} style={{width:'50px',height:'50px'}}/>
-                                        }
-                                        </td>             
+                                        <td>{employee.department}</td>           
                                         <td>
                                             <Link  to={`/edit-employee/${employee.id}`} >
                                                 <Button style={{backgroundColor:"violet"}}>Edit</Button>
